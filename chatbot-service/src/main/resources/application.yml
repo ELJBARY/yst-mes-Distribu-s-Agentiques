@@ -1,0 +1,31 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: chatbot-service
+  config:
+    import: "optional:configserver:${CONFIG_URL:http://localhost:8888}"
+  ai:
+    openai:
+      # La clé n'est JAMAIS écrite dans le code : export OPENAI_API_KEY=sk-...
+      api-key: ${OPENAI_API_KEY:missing-key}
+      chat:
+        options:
+          model: ${OPENAI_MODEL:gpt-4o-mini}
+          temperature: 0.2
+    mcp:
+      client:
+        type: SYNC
+        request-timeout: 30s
+        initialized: false   # ne bloque pas le démarrage si un serveur MCP est absent
+        streamable-http:
+          connections:
+            customer:
+              url: ${CUSTOMER_MCP_URL:http://localhost:8081}
+              endpoint: /mcp
+            ebank:
+              url: ${EBANK_MCP_URL:http://localhost:8082}
+              endpoint: /mcp
+
+telegram:
+  bot-token: ${TELEGRAM_BOT_TOKEN:}   # vide = bot Telegram désactivé

@@ -1,0 +1,21 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: ebank-service
+  config:
+    import: "optional:configserver:${CONFIG_URL:http://localhost:8888}"
+  datasource:
+    url: jdbc:h2:mem:accounts_db
+  jpa:
+    hibernate:
+      ddl-auto: update
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+  ai:
+    mcp:
+      server:
+        name: ebank-mcp-server
+        protocol: STREAMABLE

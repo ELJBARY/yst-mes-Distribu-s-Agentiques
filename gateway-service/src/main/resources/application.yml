@@ -1,0 +1,38 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins: "*"
+                allowedMethods: "*"
+                allowedHeaders: "*"
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: customer-service
+              uri: lb://CUSTOMER-SERVICE
+              predicates:
+                - Path=/api/customers/**
+            - id: ebank-service
+              uri: lb://EBANK-SERVICE
+              predicates:
+                - Path=/api/accounts/**
+            - id: chatbot-service
+              uri: lb://CHATBOT-SERVICE
+              predicates:
+                - Path=/api/chat/**
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
