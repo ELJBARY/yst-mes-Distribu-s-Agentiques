@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>EBank Chatbot</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{font-family:system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem}
+#log{border:1px solid #ccc;border-radius:8px;height:55vh;overflow:auto;padding:1rem;white-space:pre-wrap}
+.u{color:#0b5;margin:.5rem 0}.b{color:#123;margin:.5rem 0}
+form{display:flex;gap:.5rem;margin-top:1rem}input{flex:1;padding:.6rem}button{padding:.6rem 1rem}
+</style></head><body>
+<h2>EBank Chatbot (Spring AI + MCP)</h2>
+<div id="log"></div>
+<form id="f"><input id="q" placeholder="Ex : tous les comptes bancaires du client Hassan" autofocus><button>Envoyer</button></form>
+<script>
+const log=document.getElementById('log'),cid='web-'+Math.random().toString(36).slice(2);
+const add=(c,t)=>{const d=document.createElement('div');d.className=c;d.textContent=t;log.append(d);log.scrollTop=log.scrollHeight;return d};
+f.onsubmit=async e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;
+ document.getElementById('q').value='';add('u','Vous : '+q);const w=add('b','…');
+ try{const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,conversationId:cid})});
+ w.textContent='Bot : '+await r.text()}catch(err){w.textContent='Erreur : '+err}};
+</script></body></html>

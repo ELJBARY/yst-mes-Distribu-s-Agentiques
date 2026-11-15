@@ -1,0 +1,30 @@
+spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+  ai:
+    mcp:
+      server:
+        name: ebank-mcp-server
+        version: 1.0.0
+        protocol: STREAMABLE
+        type: SYNC
+
+# Tolérance aux pannes : Resilience4J
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        registerHealthIndicator: true
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s

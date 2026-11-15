@@ -1,0 +1,8 @@
+spring:
+  ai:
+    mcp:
+      server:
+        name: customer-mcp-server
+        version: 1.0.0
+        protocol: STREAMABLE
+        type: SYNC
